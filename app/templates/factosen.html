@@ -1,16 +1,56 @@
 {% extends "base.html" %}
 {% block content %}
 
-        <!-- Header-->
-        <header class="masthead d-flex align-items-center">
-            <div class="container px-4 px-lg-5 text-center">
-                <h1 class="mb-1">Enviar Factos</h1>
-                <h3 class="mb-5"><em>Aqui, o utlizador pode escrever e enviar factos que ache interessantes e aparecerão na página</em></h3>
-                <a class="btn btn-primary btn-xl" href="#factosen">Find Out More</a>
-            </div>
-        </header>
-        <!-- About-->
+<!-- Header -->
+<header class="masthead text-center">
+  <div class="container px-4 px-lg-5">
+    <h1 class="mb-1">Enviar Factos</h1>
+    <h3 class="mb-5"><em>Partilha factos interessantes que achas que merecem destaque!</em></h3>
+  </div>
+</header>
 
-
+<!-- Formulário -->
+<section class="bg-light py-5">
+  <div class="container px-4 px-lg-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow-lg border-0 rounded">
+          <div class="card-body p-5">
+            <h4 class="text-center mb-4">Submeter um novo facto</h4>
+            <form method="POST" action="/submeter_facto">
+              <div class="form-group mb-3">
+                <label for="texto">Texto do facto</label>
+                <textarea class="form-control" id="texto" name="texto" rows="4" required placeholder="Escreve aqui o teu facto..."></textarea>
+              </div>
+              <div class="form-group mb-3">
+                <label for="data">Data (opcional)</label>
+                <input type="date" class="form-control" id="data" name="data">
+              </div>
+              <div class="form-group mb-3">
+                <label for="local">Local (opcional)</label>
+                <input type="text" class="form-control" id="local" name="local" placeholder="Ex: Egito, Lisboa, Marte...">
+              </div>
+              <div class="form-group mb-4">
+                <label for="estilo">Estilo (opcional)</label>
+                <select class="form-control" id="estilo" name="estilo">
+                  <option value="">Escolhe um estilo</option>
+                  <option value="Histórico">Histórico</option>
+                  <option value="Científico">Científico</option>
+                  <option value="Bizarro">Bizarro</option>
+                  <option value="Tecnologia">Tecnologia</option>
+                  <option value="Outro">Outro</option>
+                </select>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-lg">Submeter Facto</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <p class="text-muted mt-4 text-center">Após validação, o teu facto poderá aparecer na página principal 🚀</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 {% endblock %}
