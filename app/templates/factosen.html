@@ -17,34 +17,58 @@
         <div class="card shadow-lg border-0 rounded">
           <div class="card-body p-5">
             <h4 class="text-center mb-4">Submeter um novo facto</h4>
-            <form method="POST" action="/submeter_facto">
-              <div class="form-group mb-3">
-                <label for="texto">Texto do facto</label>
-                <textarea class="form-control" id="texto" name="texto" rows="4" required placeholder="Escreve aqui o teu facto..."></textarea>
-              </div>
-              <div class="form-group mb-3">
-                <label for="data">Data (opcional)</label>
-                <input type="date" class="form-control" id="data" name="data">
-              </div>
-              <div class="form-group mb-3">
-                <label for="local">Local (opcional)</label>
-                <input type="text" class="form-control" id="local" name="local" placeholder="Ex: Egito, Lisboa, Marte...">
-              </div>
-              <div class="form-group mb-4">
-                <label for="estilo">Estilo (opcional)</label>
-                <select class="form-control" id="estilo" name="estilo">
-                  <option value="">Escolhe um estilo</option>
-                  <option value="Histórico">Histórico</option>
-                  <option value="Científico">Científico</option>
-                  <option value="Bizarro">Bizarro</option>
-                  <option value="Tecnologia">Tecnologia</option>
-                  <option value="Outro">Outro</option>
-                </select>
-              </div>
-              <div class="text-center">
-                <button type="submit" class="btn btn-primary btn-lg">Submeter Facto</button>
-              </div>
-            </form>
+              <form method="POST" action="/submeter_facto">
+                <div class="form-group mb-3">
+                  <label for="texto">Texto do facto</label>
+                  <textarea class="form-control" id="texto" name="texto" rows="4" required placeholder="Escreve aqui o teu facto..."></textarea>
+                </div>
+
+                <div class="form-group mb-3">
+                  <label for="data">Data (opcional)</label>
+                  <input type="text" class="form-control" id="data" name="data"
+                        placeholder="Ex: 12/10/2000" maxlength="10" oninput="formatarData(this)">
+                </div>
+
+
+                <div class="form-group mb-3">
+                  <label for="local">Local (opcional)</label>
+                  <select class="form-control" id="local" name="local">
+                    <option value="">Seleciona um país</option>
+                    <option value="Portugal">Portugal</option>
+                    <option value="Brasil">Brasil</option>
+                    <option value="Espanha">Espanha</option>
+                    <option value="França">França</option>
+                    <option value="Alemanha">Alemanha</option>
+                    <option value="Itália">Itália</option>
+                    <option value="Reino Unido">Reino Unido</option>
+                    <option value="Estados Unidos">Estados Unidos</option>
+                    <option value="Canadá">Canadá</option>
+                    <option value="Japão">Japão</option>
+                    <option value="China">China</option>
+                    <option value="Austrália">Austrália</option>
+                    <option value="Moçambique">Moçambique</option>
+                    <option value="Angola">Angola</option>
+                    <!-- Podes adicionar mais países conforme necessário -->
+                  </select>
+                </div>
+
+                <div class="form-group mb-4">
+                  <label for="estilo">Estilo (opcional)</label>
+                  <select class="form-control" id="estilo" name="estilo">
+                    <option value="">Escolhe um estilo</option>
+                    <option value="Histórico">Histórico</option>
+                    <option value="Científico">Científico</option>
+                    <option value="Bizarro">Bizarro</option>
+                    <option value="Tecnologia">Tecnologia</option>
+                    <option value="Outro">Outro</option>
+                  </select>
+                </div>
+
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary btn-lg">Submeter Facto</button>
+                </div>
+              </form>
+
           </div>
         </div>
         <p class="text-muted mt-4 text-center">Após validação, o teu facto poderá aparecer na página principal 🚀</p>
@@ -52,5 +76,18 @@
     </div>
   </div>
 </section>
+
+<script>
+function formatarData(campo) {
+  let valor = campo.value.replace(/\D/g, '');
+  if (valor.length > 2 && valor.length <= 4)
+    campo.value = valor.slice(0,2) + '/' + valor.slice(2);
+  else if (valor.length > 4)
+    campo.value = valor.slice(0,2) + '/' + valor.slice(2,4) + '/' + valor.slice(4,8);
+  else
+    campo.value = valor;
+}
+</script>
+
 
 {% endblock %}
