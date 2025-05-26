@@ -1,15 +1,49 @@
 {% extends "base.html" %}
 {% block content %}
 
-        <!-- Header-->
-        <header class="masthead d-flex align-items-center">
-            <div class="container px-4 px-lg-5 text-center">
-                <h1 class="mb-1">Conta</h1>
-                <h3 class="mb-5"><em>Página de Conta do utilizador</em></h3>
-                <a class="btn btn-primary btn-xl" href="#conta">Find Out More</a>
+    <div class="card p-4 shadow-lg" style="width: 350px;">
+        <h3 class="text-center mb-4">Login</h3>
+    
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert">
+                {{ messages[0] }}
             </div>
-        </header>
-        <!-- About-->
+        {% endif %}
+        {% endwith %}
+    
+    <form method="POST" action="{{ url_for('conta') }}">
+
+        <div class="mb-3">
+            <label for="username" class="form-label">Usuário</label>
+            <div class="input-group">
+                <input type="text" class="form-control" name="username" id="username" placeholder="Usuário" required>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Senha</label>
+            <div class="input-group">
+                <input type="password" class="form-control" name="password" id="password" placeholder="Senha" required>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Entrar</button>
+
+    </form>
+    
+    </div>
+
+
+
+<!-- Header -->
+<header class="masthead text-center">
+  <div class="container px-4 px-lg-5">
+    <h1 class="mb-1">Minha Conta</h1>
+    <h3 class="mb-5"><em>Partilha factos interessantes que achas que merecem destaque!</em></h3>
+  </div>
+</header>
+
 
 
 
