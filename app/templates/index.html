@@ -75,53 +75,70 @@
             </div>
         </section>
 
-        <!-- Services-->
+        <!-- Gerar Factos -->
         <section class="content-section bg-primary text-white text-center" id="gerar-factos">
             <div class="container px-4 px-lg-5">
                 <div class="content-section-heading">
                     <h2 class="text-center display-5 fw-bold mb-5">⚙️ Gerar Factos</h2>
-                    <h2 class="mb-5">What We Offer</h2>
+                    <h2 class="mb-5">Com base no que escolhes, podes gerar um facto à tua vontade!</h2>
                 </div>
-                <div class="row gx-4 gx-lg-5">
-                    <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
-                        <span class="service-icon rounded-circle mx-auto mb-3"><i class="icon-screen-smartphone"></i></span>
-                        <h4><strong>Responsive</strong></h4>
-                        <p class="text-faded mb-0">Looks great on any screen size!</p>
+                
+
+                <section class="py-5" id="gerar-factos" style="background-color: #167b9c;">
+
+                <div class="container text-center text-white">
+                    <p class="mb-5 fs-5">Com base no que escolhes, podes gerar um facto à tua vontade!</p>
+
+                    <div class="row justify-content-center g-4">
+                    <!-- Data (Texto manual) -->
+                    <div class="col-md-3">
+                        <label for="dataInput" class="form-label fw-semibold">Selecionar Data</label>
+                        <input type="text" id="dataInput" class="form-control rounded-pill text-center shadow-sm border-0"
+                            placeholder="dd/mm/aaaa">
                     </div>
-                    <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
-                        <span class="service-icon rounded-circle mx-auto mb-3"><i class="icon-pencil"></i></span>
-                        <h4><strong>Redesigned</strong></h4>
-                        <p class="text-faded mb-0">Freshly redesigned for Bootstrap 5.</p>
+
+                    <!-- Categoria -->
+                    <div class="col-md-3">
+                        <label for="categoriaSelect" class="form-label fw-semibold">Selecionar Categoria</label>
+                        <select id="categoriaSelect" class="form-select rounded-pill text-center shadow-sm border-0">
+                        <option value="">Escolher...</option>
+                        <option>História</option>
+                        <option>Desporto</option>
+                        <option>Futebol</option>
+                        <option>Política</option>
+                        <option>Música</option>
+                        </select>
                     </div>
-                    <div class="col-lg-3 col-md-6 mb-5 mb-md-0">
-                        <span class="service-icon rounded-circle mx-auto mb-3"><i class="icon-like"></i></span>
-                        <h4><strong>Favorited</strong></h4>
-                        <p class="text-faded mb-0">
-                            Millions of users
-                            <i class="fas fa-heart"></i>
-                            Start Bootstrap!
-                        </p>
+
+                    <!-- Área -->
+                    <div class="col-md-3">
+                        <label for="areaSelect" class="form-label fw-semibold">Selecionar Área</label>
+                        <select id="areaSelect" class="form-select rounded-pill text-center shadow-sm border-0">
+                        <option value="">Escolher...</option>
+                        <option>Europa</option>
+                        <option>Continente Americano</option>
+                        <option>Mundo</option>
+                        </select>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <span class="service-icon rounded-circle mx-auto mb-3"><i class="icon-mustache"></i></span>
-                        <h4><strong>Question</strong></h4>
-                        <p class="text-faded mb-0">I mustache you a question...</p>
                     </div>
+
+                    <!-- Botão -->
+                    <div class="mt-5">
+                    <button class="btn btn-light text-primary fw-semibold px-4 py-2 rounded-pill shadow-sm">
+                        🎲 Gerar Facto
+                    </button>
+                    </div>
+                </div>
+                </section>
+
+
+
+
                 </div>
             </div>
         </section>
-        <!-- Callout-->
-        <section class="callout">
-            <div class="container px-4 px-lg-5 text-center">
-                <h2 class="mx-auto mb-5">
-                    Welcome to
-                    <em>your</em>
-                    next website!
-                </h2>
-                <a class="btn btn-primary btn-xl" href="https://startbootstrap.com/theme/stylish-portfolio/">Download Now!</a>
-            </div>
-        </section>
-        <!-- Portfolio-->
+        
+        <!-- Portfolio
         <section class="content-section" id="portfolio">
             <div class="container px-4 px-lg-5">
                 <div class="content-section-heading text-center">
@@ -137,8 +154,8 @@
                                     <p class="mb-0">A yellow pencil with envelopes on a clean, blue backdrop!</p>
                                 </div>
                             </div>
-                            <!-- <img class="img-fluid" src="assets/img/portfolio-1.jpg" alt="..." /> -->
-                            <img class="img-fluid" src="{{ url_for('static', filename='images/portfolio-1.jpg') }}" alt="..." />
+                            <img class="img-fluid" src="assets/img/portfolio-1.jpg" alt="..." /> -->
+                            <!-- <img class="img-fluid" src="{{ url_for('static', filename='images/portfolio-1.jpg') }}" alt="..." />
                         </a>
                     </div>
                     <div class="col-lg-6">
@@ -176,15 +193,15 @@
                     </div>
                 </div>
             </div>
-        </section>
-        <!-- Call to Action-->
+        </section>  -->
+        <!-- Call to Action
         <section class="content-section bg-primary text-white">
             <div class="container px-4 px-lg-5 text-center">
                 <h2 class="mb-4">The buttons below are impossible to resist...</h2>
                 <a class="btn btn-xl btn-light me-4" href="#!">Click Me!</a>
                 <a class="btn btn-xl btn-dark" href="#!">Look at Me!</a>
             </div>
-        </section>
+        </section> -->
 
 
 {% endblock %}
