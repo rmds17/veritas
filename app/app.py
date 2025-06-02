@@ -6,11 +6,50 @@ import os # para receber as credenciais de acesso a base do container
 
 
 app = Flask(__name__)
+# app.secret_key = 'sua_chave_secreta'  # Necessário para flash messages
+app.secret_key = '24e23c43d423c434343vfghfgd'
+
+# Configurações do banco de dados a partir das variáveis de ambiente
+app.config['MYSQL_HOST'] = os.getenv('DB_HOST', 'db')  # 'db' é o nome do serviço no compose
+app.config['MYSQL_USER'] = os.getenv('DB_USER', 'veritas_user')
+app.config['MYSQL_PASSWORD'] = os.getenv('DB_PASSWORD', '1234')
+app.config['MYSQL_DATABASE'] = os.getenv('DB_NAME', 'veritas_db')
 
 
 @app.route("/")
 def home():
     return render_template("index.html")
+
+# Gerir conexões com a base
+def get_db():
+    if 'db' not in g: # valida que nao existe conexão com o objeto especial g (namespace global durante o ciclo de vida de uma requisição)
+        try:
+        # criar a conexão
+            g.db = mysql.connector.connect(
+                host=app.config['MYSQL_HOST'],
+                user=app.config['MYSQL_USER'],
+                password=app.config['MYSQL_PASSWORD'],  
+                database=app.config['MYSQL_DATABASE']
+            )
+            app.logger.info("Nova conexão com a base de dados estabelecida")
+            return "Conexão bem-sucedida!"
+        except mysql.connector.Error as err:
+            app.logger.error(f"Falha na conexão com a base: {err}")
+            return f"Erro: {e}"
+            raise
+    return g.db
+
+# encerra a conexão com uso do decorador
+@app.teardown_appcontext
+def close_db(error):
+    db = g.pop('db', None)
+    if db is not None:
+        try:
+            db.close()
+            app.logger.info("Conexão com a base de dados fechada")
+        except mysql.connector.Error as err:
+            app.logger.error(f"Erro ao fechar conexão: {err}")
+
 
 
 @app.route('/conta',  methods=['GET', 'POST'])
