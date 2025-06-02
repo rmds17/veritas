@@ -42,21 +42,20 @@
         <h2 class="display-4 fw-bold mb-4">🧠 Facto do Dia</h2>
 
         <!-- Cartão do facto -->
-        <div class="card shadow rounded-4 p-4 mx-auto" style="max-width: 800px; width: 100%;">
-            <div class="card-body">
-                <p class="fs-4 text-center mb-0 text-dark">
-                    Em 1969, o ser humano pisou a Lua pela primeira vez. A missão Apollo 11 foi um marco na história da exploração espacial, com Neil Armstrong a dizer as famosas palavras: "Um pequeno passo para o homem, um salto gigante para a humanidade."
-                </p>
+        {% if facto_do_dia %}
+            <div class="card shadow rounded-4 p-4 mx-auto" style="max-width: 800px; width: 100%;">
+                <div class="card-body">
+                    <p class="fs-4 text-center mb-0 text-dark">
+                        {{ facto_do_dia['fato'] }} <br>
+                        <small><em>{{ facto_do_dia['localizacao'] }}, {{ facto_do_dia['data_fato'] }}</em></small>
+                    </p>
+                </div>
             </div>
-        </div>
+        {% else %}
+            <p class="fs-5">Ainda não há facto guardado para o dia de hoje.</p>
+        {% endif %}
         </div>
         </section>
-
-
-
-
-
-
 
 
         <!-- Factos Random-->
