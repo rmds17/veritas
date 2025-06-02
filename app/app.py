@@ -1,6 +1,6 @@
 # from flask import Flask
 # from flask import Flask, render_template
-from flask import Flask, request, render_template, redirect, url_for, flash, g, session
+from flask import Flask, request, render_template, redirect, url_for, flash, g, session, datetime
 import mysql.connector
 import os # para receber as credenciais de acesso a base do container
 from datetime import datetime
@@ -30,9 +30,9 @@ def home():
     db = get_db()
     cursor = db.cursor(dictionary=True)
 
-    # Pega dia e mês atuais
+    # Obter mês e dia atuais no formato MM-DD
     today = datetime.today()
-    today_str = today.strftime("-%m-%d")  # exemplo: '-06-02'
+    today_md = today.strftime("%m-%d")  # ex: '06-02'
 
     # Busca facto correspondente (independentemente do ano)
     query = """
@@ -40,7 +40,7 @@ def home():
         WHERE DATE_FORMAT(data_fato, '%%m-%%d') = %s
         LIMIT 1
     """
-    cursor.execute(query, (today_str,))
+    cursor.execute(query, (today_md,))
     facto_do_dia = cursor.fetchone()
     cursor.close()
 
