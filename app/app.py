@@ -1,4 +1,8 @@
-from flask import Flask, render_template
+# from flask import Flask
+# from flask import Flask, render_template
+from flask import Flask, request, render_template, redirect, url_for, flash, g
+import mysql.connector
+import os # para receber as credenciais de acesso a base do container
 
 
 app = Flask(__name__)
