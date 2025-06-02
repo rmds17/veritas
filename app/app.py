@@ -1,61 +1,7 @@
-import os
-from flask import Flask, request, render_template, redirect, url_for, flash, g, session
-import mysql.connector
-from werkzeug.utils import secure_filename
+from flask import Flask, render_template
 
 
 app = Flask(__name__)
-
-
-app.secret_key = '24e23c43d423c434343vfghfgd'
-
-
-# Configurações do banco de dados a partir das variáveis de ambiente
-app.config['MYSQL_HOST'] = os.getenv('DB_HOST', 'db')
-app.config['MYSQL_USER'] = os.getenv('DB_USER', 'veritas_user')
-app.config['MYSQL_PASSWORD'] = os.getenv('DB_PASSWORD', '1234')
-app.config['MYSQL_DATABASE'] = os.getenv('DB_NAME', 'veritas_db')
-
-
-# Configurações do upload
-UPLOAD_FOLDER = 'static/images/uploads'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB
-
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
-# Gerir coneções com a base
-def get_db():
-    if 'db' not in g:
-        try:
-            g.db = mysql.connector.connect(
-                host=app.config['MYSQL_HOST'],
-                user=app.config['MYSQL_USER'],
-                password=app.config['MYSQL_PASSWORD'],
-                database=app.config['MYSQL_DATABASE']
-            )
-            app.logger.info("Nova conexão com a base de dados estabelecida")
-        except mysql.connector.Error as err:
-            app.logger.error(f"Falha na conexão com a base: {err}")
-            raise
-    return g.db
-
-
-# encerra a conexão com uso do decorador
-@app.teardown_appcontext
-def close_db(error):
-    db = g.pop('db', None)
-    if db is not None:
-        try:
-            db.close()
-            app.logger.info("Conexão com a base de dados fechada")
-        except mysql.connector.Error as err:
-            app.logger.error(f"Erro ao fechar conexão: {err}")
 
 
 @app.route("/")
@@ -204,12 +150,32 @@ def factosg():
 
 @app.route("/factosen")
 def factosen():
-    return render_template("factosen.html")
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT texto FROM factos ORDER BY criado_em DESC")
+    factos = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template("factosen.html", factos=factos)
+
+@app.route("/submeter_facto", methods=["POST"])
+def submeter_facto():
+    texto = request.form.get("texto")
+    data = request.form.get("data")
+    local = request.form.get("local")
+    estilo = request.form.get("estilo")
+
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+    query = "INSERT INTO factos (texto, data, local, estilo) VALUES (%s, %s, %s, %s)"
+    cursor.execute(query, (texto, data, local, estilo))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return redirect("/factosen")
 
 
 if __name__ == "__main__":
-    # Cria a pasta de uploads se não existir
-    if not os.path.exists(UPLOAD_FOLDER):
-        os.makedirs(UPLOAD_FOLDER)
-    
     app.run(debug=True)
+
