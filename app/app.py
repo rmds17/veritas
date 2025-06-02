@@ -60,7 +60,6 @@ def get_db():
                 database=app.config['MYSQL_DATABASE']
             )
             app.logger.info("Nova conexão com a base de dados estabelecida")
-            return "Conexão bem-sucedida!"
         except mysql.connector.Error as err:
             app.logger.error(f"Falha na conexão com a base: {err}")
             return f"Erro: {e}"
