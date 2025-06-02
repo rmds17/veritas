@@ -56,3 +56,5 @@ def submeter_facto():
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")
+
+# Configuração da base de dados
