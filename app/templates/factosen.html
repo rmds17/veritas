@@ -2,93 +2,93 @@
 {% block content %}
 
 <!-- Header -->
-<header class="masthead text-center">
+<header class="masthead text-center mb-0" style="background-color: #ffffff; padding: 2rem;">
   <div class="container px-4 px-lg-5">
-    <h1 class="mb-1">Enviar Factos</h1>
-    <h3 class="mb-5"><em>Partilha factos interessantes que achas que merecem destaque!</em></h3>
+    <h1 class="mb-3">Enviar Factos</h1>
+    <h3 class="mb-4"><em>Partilha factos interessantes que achas que merecem destaque!</em></h3>
+
+    <div style="height: 80px;"></div>
+
+    <!-- Botões de navegação -->
+    <div class="mb-4">
+      <a href="#factos-submetidos" class="btn btn-primary py-3 px-4 mx-2">Ver Factos Submetidos</a>
+      <a href="#submeter-facto" class="btn btn-success py-3 px-4 mx-2">Submeter Facto</a>
+    </div>
   </div>
 </header>
 
-<div class="container mt-5">
-  <h3 class="text-center mb-4">Factos Submetidos</h3>
-  <div class="row">
-    {% for facto in factos %}
-    <div class="col-md-4 mb-3">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <p class="card-text">{{ facto.texto }}</p>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-</div>
-
-<!-- Formulário -->
-<section class="bg-light py-5">
-  <div class="container px-4 px-lg-5">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="card shadow-lg border-0 rounded">
-          <div class="card-body p-5">
-            <h4 class="text-center mb-4">Submeter um novo facto</h4>
-              <form method="POST" action="/submeter_facto">
-                <div class="form-group mb-3">
-                  <label for="texto">Texto do facto</label>
-                  <textarea class="form-control" id="texto" name="texto" rows="4" required placeholder="Escreve aqui o teu facto..."></textarea>
-                </div>
-
-                <div class="form-group mb-3">
-                  <label for="data">Data (opcional)</label>
-                  <input type="text" class="form-control" id="data" name="data"
-                        placeholder="Ex: 12/10/2000" maxlength="10" oninput="formatarData(this)">
-                </div>
-
-
-                <div class="form-group mb-3">
-                  <label for="local">Local (opcional)</label>
-                  <select class="form-control" id="local" name="local">
-                    <option value="">Seleciona um país</option>
-                    <option value="Portugal">Portugal</option>
-                    <option value="Brasil">Brasil</option>
-                    <option value="Espanha">Espanha</option>
-                    <option value="França">França</option>
-                    <option value="Alemanha">Alemanha</option>
-                    <option value="Itália">Itália</option>
-                    <option value="Reino Unido">Reino Unido</option>
-                    <option value="Estados Unidos">Estados Unidos</option>
-                    <option value="Canadá">Canadá</option>
-                    <option value="Japão">Japão</option>
-                    <option value="China">China</option>
-                    <option value="Austrália">Austrália</option>
-                    <option value="Moçambique">Moçambique</option>
-                    <option value="Angola">Angola</option>
-                    
-                  </select>
-                </div>
-
-                <div class="form-group mb-4">
-                  <label for="estilo">Estilo (opcional)</label>
-                  <select class="form-control" id="estilo" name="estilo">
-                    <option value="">Escolhe um estilo</option>
-                    <option value="Histórico">Histórico</option>
-                    <option value="Científico">Científico</option>
-                    <option value="Bizarro">Bizarro</option>
-                    <option value="Tecnologia">Tecnologia</option>
-                    <option value="Outro">Outro</option>
-                  </select>
-                </div>
-
-                <div class="text-center">
-                  <button type="submit" class="btn btn-primary btn-lg">Submeter Facto</button>
-                </div>
-              </form>
-
+<!-- Factos Submetidos -->
+<section id="factos-submetidos" style="background-color: #167b9c; padding: 2rem;">
+  <div class="container">
+    <h3 class="text-center mb-4 text-white">Factos Submetidos</h3>
+    <div class="row">
+      {% for facto in factos %}
+      <div class="col-md-4 mb-3">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <p class="card-text">{{ facto.texto }}</p>
           </div>
         </div>
-        <p class="text-muted mt-4 text-center">Após validação, o teu facto poderá aparecer na página principal 🚀</p>
       </div>
+      {% endfor %}
     </div>
+  </div>
+</section>
+
+<!-- Formulário Submeter Facto -->
+<section id="submeter-facto" style="background-color: #218838; padding: 2rem;">
+  <div class="container px-4 px-lg-5 text-white">
+    <h4 class="text-center mb-4">Submeter um novo facto</h4>
+    <form method="POST" action="/submeter_facto">
+      <div class="form-group mb-3">
+        <label for="texto">Texto do facto</label>
+        <textarea class="form-control" id="texto" name="texto" rows="4" required placeholder="Escreve aqui o teu facto..."></textarea>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="data">Data (opcional)</label>
+        <input type="text" class="form-control" id="data" name="data" placeholder="Ex: 12/10/2000" maxlength="10" oninput="formatarData(this)">
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="local">Local (opcional)</label>
+        <select class="form-control" id="local" name="local">
+          <option value="">Seleciona um país</option>
+          <option value="Portugal">Portugal</option>
+          <option value="Brasil">Brasil</option>
+          <option value="Espanha">Espanha</option>
+          <option value="França">França</option>
+          <option value="Alemanha">Alemanha</option>
+          <option value="Itália">Itália</option>
+          <option value="Reino Unido">Reino Unido</option>
+          <option value="Estados Unidos">Estados Unidos</option>
+          <option value="Canadá">Canadá</option>
+          <option value="Japão">Japão</option>
+          <option value="China">China</option>
+          <option value="Austrália">Austrália</option>
+          <option value="Moçambique">Moçambique</option>
+          <option value="Angola">Angola</option>
+        </select>
+      </div>
+
+      <div class="form-group mb-4">
+        <label for="estilo">Estilo (opcional)</label>
+        <select class="form-control" id="estilo" name="estilo">
+          <option value="">Escolhe um estilo</option>
+          <option value="Histórico">Histórico</option>
+          <option value="Científico">Científico</option>
+          <option value="Bizarro">Bizarro</option>
+          <option value="Tecnologia">Tecnologia</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-light btn-lg">Submeter Facto</button>
+      </div>
+    </form>
+
+    <p class="mt-4 text-center">Após validação, o teu facto poderá aparecer na página principal 🚀</p>
   </div>
 </section>
 
@@ -96,13 +96,12 @@
 function formatarData(campo) {
   let valor = campo.value.replace(/\D/g, '');
   if (valor.length > 2 && valor.length <= 4)
-    campo.value = valor.slice(0,2) + '/' + valor.slice(2);
+    campo.value = valor.slice(0, 2) + '/' + valor.slice(2);
   else if (valor.length > 4)
-    campo.value = valor.slice(0,2) + '/' + valor.slice(2,4) + '/' + valor.slice(4,8);
+    campo.value = valor.slice(0, 2) + '/' + valor.slice(2, 4) + '/' + valor.slice(4, 8);
   else
     campo.value = valor;
 }
 </script>
-
 
 {% endblock %}
