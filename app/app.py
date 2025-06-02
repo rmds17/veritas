@@ -3,6 +3,7 @@
 from flask import Flask, request, render_template, redirect, url_for, flash, g, session
 import mysql.connector
 import os # para receber as credenciais de acesso a base do container
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -25,7 +26,27 @@ db_config = {
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+
+    # Pega dia e mês atuais
+    today = datetime.today()
+    today_str = today.strftime("-%m-%d")  # exemplo: '-06-02'
+
+    # Busca facto correspondente (independentemente do ano)
+    query = """
+        SELECT * FROM fatos
+        WHERE DATE_FORMAT(data_fato, '%%m-%%d') = %s
+        LIMIT 1
+    """
+    cursor.execute(query, (today_str,))
+    facto_do_dia = cursor.fetchone()
+    cursor.close()
+
+    return render_template("index.html", facto_do_dia=facto_do_dia)
+
+
 
 # Gerir conexões com a base
 def get_db():
