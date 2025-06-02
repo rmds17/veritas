@@ -1,6 +1,7 @@
 # from flask import Flask
 # from flask import Flask, render_template
-from flask import Flask, request, render_template, redirect, url_for, flash, g, session, datetime
+from datetime import datetime
+from flask import Flask, request, render_template, redirect, url_for, flash, g, session
 import mysql.connector
 import os # para receber as credenciais de acesso a base do container
 from datetime import datetime
