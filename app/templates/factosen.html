@@ -9,6 +9,21 @@
   </div>
 </header>
 
+<div class="container mt-5">
+  <h3 class="text-center mb-4">Factos Submetidos</h3>
+  <div class="row">
+    {% for facto in factos %}
+    <div class="col-md-4 mb-3">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <p class="card-text">{{ facto.texto }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
 <!-- Formulário -->
 <section class="bg-light py-5">
   <div class="container px-4 px-lg-5">
@@ -48,7 +63,7 @@
                     <option value="Austrália">Austrália</option>
                     <option value="Moçambique">Moçambique</option>
                     <option value="Angola">Angola</option>
-                    <!-- Podes adicionar mais países conforme necessário -->
+                    
                   </select>
                 </div>
 
