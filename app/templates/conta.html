@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+<!-- {% extends "base.html" %}
 {% block content %}
 
     <div class="card p-4 shadow-lg" style="width: 350px;">
@@ -36,7 +36,7 @@
 
 
 
-<!-- Header -->
+        Header 
 <header class="masthead text-center">
   <div class="container px-4 px-lg-5">
     <h1 class="mb-1">Minha Conta</h1>
@@ -47,4 +47,101 @@
 
 
 
+{% endblock %} -->
+
+
+{% extends "base.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-center gap-4 flex-wrap">
+
+    <!-- LOGIN -->
+    {% if not session.get('user_id') %}
+    <div class="card p-4 shadow-lg" style="width: 350px;" id="login-form">
+        <h3 class="text-center mb-4">Login</h3>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-info text-center">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('conta') }}">
+            <div class="mb-3">
+                <label for="username" class="form-label">Usser</label>
+                <input type="text" class="form-control" name="username" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Palavra-passe</label>
+                <input type="password" class="form-control" name="password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Entrar</button>
+            <div class="text-center mt-2">
+                <a href="#" onclick="toggleForms()">Criar nova conta</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- REGISTO -->
+    <div class="card p-4 shadow-lg d-none" style="width: 350px;" id="register-form">
+        <h3 class="text-center mb-4">Novo Registo</h3>
+        <form method="POST" action="{{ url_for('conta') }}">
+            <div class="mb-3">
+                <label for="new_username" class="form-label">Novo Utilizador</label>
+                <input type="text" class="form-control" name="new_username" required>
+            </div>
+            <div class="mb-3">
+                <label for="new_password" class="form-label">Nova Palavra-Passe</label>
+                <input type="password" class="form-control" name="new_password" required>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Registar</button>
+        </form>
+    </div>
+    {% endif %}
+
+    <!-- CONTA DO UTILIZADOR -->
+    {% if session.get('user_id') %}
+    <div class="card p-4 shadow-lg" style="width: 400px;">
+        <h4 class="text-center mb-3">Minha Conta</h4>
+        <p><strong>Username:</strong> {{ session.username }}</p>
+        <p><strong>Palavra-passe:</strong> ********</p>
+        {% if user_data %}
+        <p><strong>Data de criação:</strong> {{ user_data['created_at'] }}</p>
+        {% endif %}
+
+
+        <form method="POST" action="{{ url_for('alterar_username') }}" class="mb-2">
+            <input type="text" name="novo_username" class="form-control mb-1" placeholder="Novo username" required>
+            <button class="btn btn-warning w-100">Alterar Username</button>
+        </form>
+
+        <form method="POST" action="{{ url_for('alterar_password') }}" class="mb-2">
+            <input type="password" name="nova_password" class="form-control mb-1" placeholder="Nova password" required>
+            <button class="btn btn-secondary w-100">Alterar Password</button>
+        </form>
+
+        <form method="POST" action="{{ url_for('eliminar_conta') }}">
+            <button class="btn btn-danger w-100">Eliminar Conta</button>
+        </form>
+    </div>
+    {% endif %}
+
+</div>
+
+<script>
+    function toggleForms() {
+        document.getElementById('login-form').classList.toggle('d-none');
+        document.getElementById('register-form').classList.toggle('d-none');
+    }
+</script>
+
 {% endblock %}
+
+
+
+
+

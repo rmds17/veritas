@@ -93,8 +93,17 @@ def conta():
         except mysql.connector.Error as err:
             app.logger.error(f"Erro na verificação de login: {err}")
             flash('Erro ao acessar a base de dados.', 'danger')
+        
+    # Se já estiver logado, buscar dados
+    user_data = None
+    if session.get('user_id'):
+        db = get_db()
+        cursor = db.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM users WHERE id = %s", (session['user_id'],))
+        user_data = cursor.fetchone()
+        cursor.close()
 
-    return render_template('conta.html')
+    return render_template('conta.html', user_data=user_data or {})
 
 
 @app.route('/logout')
@@ -102,6 +111,85 @@ def logout():
     session.clear()
     flash('Você saiu com sucesso!', 'info')
     return redirect(url_for('home'))
+
+
+@app.route('/registar', methods=['POST'])
+def registar():
+    username = request.form.get('new_username')
+    password = request.form.get('new_password')
+
+    if not username or not password:
+        flash('Preencha todos os campos para registo!')
+        return redirect(url_for('conta'))
+
+    db = get_db()
+    cursor = db.cursor()
+
+    # Verifica se já existe
+    cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
+    if cursor.fetchone():
+        flash('Este username já está registado!', 'warning')
+        return redirect(url_for('conta'))
+
+    # Insere novo utilizador
+    cursor.execute(
+        "INSERT INTO users (username, password, created_at) VALUES (%s, %s, NOW())",
+        (username, password)
+    )
+    db.commit()
+
+    # Login automático após registo
+    cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
+    user = cursor.fetchone()
+    session['user_id'] = user[0]
+    session['username'] = user[1]
+    cursor.close()
+
+    flash('Registo feito com sucesso!', 'success')
+    return redirect(url_for('conta'))
+
+
+
+@app.route('/alterar_username', methods=['POST'])
+def alterar_username():
+    novo_username = request.form.get('novo_username')
+    if not session.get('user_id') or not novo_username:
+        return redirect(url_for('conta'))
+
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("UPDATE users SET username = %s WHERE id = %s", (novo_username, session['user_id']))
+    db.commit()
+    session['username'] = novo_username
+    flash('Username alterado com sucesso!', 'success')
+    return redirect(url_for('conta'))
+
+@app.route('/alterar_password', methods=['POST'])
+def alterar_password():
+    nova_password = request.form.get('nova_password')
+    if not session.get('user_id') or not nova_password:
+        return redirect(url_for('conta'))
+
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("UPDATE users SET password = %s WHERE id = %s", (nova_password, session['user_id']))
+    db.commit()
+    flash('Password alterada com sucesso!', 'success')
+    return redirect(url_for('conta'))
+
+@app.route('/eliminar_conta', methods=['POST'])
+def eliminar_conta():
+    if not session.get('user_id'):
+        return redirect(url_for('conta'))
+
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM users WHERE id = %s", (session['user_id'],))
+    db.commit()
+    session.clear()
+    flash('Conta eliminada com sucesso!', 'info')
+    return redirect(url_for('conta'))
+
 
 
 @app.route("/sobre")
