@@ -2,62 +2,61 @@
 {% block content %}
 
         <!-- Header-->
-        <header class="bg-light py-5">
-        <div class="container d-flex flex-column align-items-center">
-            <div class="d-flex align-items-center">
-            <!-- Logo -->
-            <img src="{{ url_for('static', filename='images/logoveritas1.jpg') }}" alt="Logo Veritas" style="height: 60px;" class="me-3">
-            
-            <!-- Nome do site -->
-            <h1 class="display-4 fw-bold mb-0">Veritas</h1>
-            </div>
+        <header class="py-4" style="background-color: transparent;">
+        <div class="container d-flex align-items-center justify-content-center">
+        <img src="{{ url_for('static', filename='images/logoveritas1.jpg') }}" alt="Logo Veritas" style="height: 100px;" class="me-3">
+        <h1 class="display-4 fw-bold mb-0">Veritas</h1>
+        </div>
         </header>
-            
 
-        <section class="masthead d-flex align-items-center">
-            <div class="container px-4 px-lg-5 text-center">
-                <h3 class="mb-5"><em>Ab oculis curiositatis innovatio nata</em></h3>
-                <h3 class="mb-5">  </h3>
-                <h3 class="mb-5">Um hub de curiosidade e um destino para todos os factos interessantes que alguma vez quiseste saber!</h3>
 
-                <!-- Botões de navegação para secções -->
-                <div class="text-center my-4">
-                <a href="#facto-dia" class="btn btn-primary m-2 px-4 py-2">Facto do Dia</a>
-                <a href="#factos-random" class="btn btn-outline-primary m-2 px-4 py-2">Facto Random</a>
-                <a href="#gerar-factos" class="btn btn-outline-secondary m-2 px-4 py-2">Gerar Factos</a>
+
+        <section class="d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="container text-center">
+            <!-- Lema -->
+            <h3 class="mb-4"><em>Ab oculis curiositatis innovatio nata</em></h3>
+
+            <div style="height: 100px;"></div>
+
+
+            <!-- Frase principal alinhada com botões -->
+            <div class="px-4 px-lg-5">
+                <h3 class="mb-4">
+                    Um hub de curiosidade e um destino para todos os factos interessantes que alguma vez quiseste saber!
+                </h3>
+
+                <!-- Botões -->
+                <div class="my-4">
+                    <a href="#facto-dia" class="btn btn-primary btn-lg m-2 px-4 py-2">Facto do Dia</a>
+                    <a href="#factos-random" class="btn btn-warning btn-lg m-2 px-4 py-2">Facto Random</a>
+                    <a href="#gerar-factos" class="btn btn-light btn-lg m-2 px-4 py-2">Gerar Factos</a>
                 </div>
-
-            </div>
-        </section>
-
-
-        <!-- Facto do Dia -->
-        <section id="facto-dia" class="container my-5 py-4">
-        <!-- Título -->
-        <h2 class="text-center display-5 fw-bold mb-5">🧠 Facto do Dia</h2>
-
-        <div class="row align-items-center">
-            <!-- Texto do Facto -->
-            <div class="col-md-6">
-            <p class="fs-5">
-                Em 1969, o ser humano pisou a Lua pela primeira vez. A missão Apollo 11 foi um marco na história da exploração espacial, com Neil Armstrong a dizer as famosas palavras: "Um pequeno passo para o homem, um salto gigante para a humanidade."
-            </p>
-            </div>
-
-            <!-- Linha vertical -->
-            <div class="col-md-1 d-none d-md-flex justify-content-center">
-            <div style="border-left: 2px solid #ccc; height: 150px;"></div>
-            </div>
-
-            <!-- Imagens relacionadas -->
-            <div class="col-md-5">
-            <div class="d-flex flex-wrap gap-3">
-                <img src="img/moon1.jpg" alt="Astronauta na Lua" class="img-fluid rounded shadow" style="max-height: 150px;">
-                <img src="img/moon2.jpg" alt="Módulo Lunar" class="img-fluid rounded shadow" style="max-height: 150px;">
-            </div>
             </div>
         </div>
         </section>
+
+
+        <section id="facto-dia" class="d-flex flex-column justify-content-center align-items-center py-5" style="background-color: #167b9c;; color: white; min-height: 100vh;">
+        <div class="container text-center">
+        <!-- Título -->
+        <h2 class="display-4 fw-bold mb-4">🧠 Facto do Dia</h2>
+
+        <!-- Cartão do facto -->
+        <div class="card shadow rounded-4 p-4 mx-auto" style="max-width: 800px; width: 100%;">
+            <div class="card-body">
+                <p class="fs-4 text-center mb-0 text-dark">
+                    Em 1969, o ser humano pisou a Lua pela primeira vez. A missão Apollo 11 foi um marco na história da exploração espacial, com Neil Armstrong a dizer as famosas palavras: "Um pequeno passo para o homem, um salto gigante para a humanidade."
+                </p>
+            </div>
+        </div>
+        </div>
+        </section>
+
+
+
+
+
+
 
 
         <!-- Factos Random-->
