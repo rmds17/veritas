@@ -31,21 +31,28 @@ def home():
     db = get_db()
     cursor = db.cursor(dictionary=True)
 
-    # Obter mês e dia atuais
+    # Query Facto do Dia
     today = datetime.today()
     month = today.month
     day = today.day
-
-
-
     query = """
     SELECT * FROM fatos WHERE MONTH(data_fato) = %s AND DAY(data_fato) = %s LIMIT 1;
     """
     cursor.execute(query, (int(month), int(day)))
     facto_do_dia = cursor.fetchone()
+
+    # Query Factos Aleatórios
+    query_factos_random = """
+        SELECT * FROM fatos
+        ORDER BY RAND()
+        LIMIT 2
+    """
+    cursor.execute(query_factos_random)
+    factos_random = cursor.fetchall()
+
     cursor.close()
 
-    return render_template("index.html", facto_do_dia=facto_do_dia)
+    return render_template("index.html", facto_do_dia=facto_do_dia, factos_random=factos_random)
 
 
 
