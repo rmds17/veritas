@@ -1,7 +1,5 @@
-# from flask import Flask
-# from flask import Flask, render_template
 from datetime import datetime
-from flask import Flask, request, render_template, redirect, url_for, flash, g, session
+from flask import Flask, request, render_template, redirect, url_for, flash, g, session, jsonify
 import mysql.connector
 import os # para receber as credenciais de acesso a base do container
 
@@ -27,7 +25,6 @@ db_config = {
 
 @app.route("/")
 def home():
-
     db = get_db()
     cursor = db.cursor(dictionary=True)
 
@@ -55,6 +52,61 @@ def home():
     cursor.close()
 
     return render_template("index.html", facto_do_dia=facto_do_dia, factos_random=factos_random)
+
+
+
+
+@app.route('/api/gerar_facto', methods=['POST'])
+def api_gerar_facto():
+    data = request.json
+    data_input = data.get('dataInput')
+    categoria = data.get('categoriaSelect')
+    area = data.get('areaSelect')
+
+    query = "SELECT * FROM fatos WHERE 1=1"
+    params = []
+
+    if data_input:
+        try:
+            year, month = map(int, data_input.split('/'))
+            query += " AND YEAR(data_fato) = %s AND MONTH(data_fato) = %s"
+            params.extend([year, month])
+        except ValueError:
+            return jsonify({"error": "Formato de data inválido. Use AAAA-MM."}), 400
+
+    if categoria:
+        categoria_map = {
+            "historia": 1,
+            "desporto": 2,
+            "futebol": 3,
+            "politica": 4,
+            "musica": 5
+        }
+        cat_id = categoria_map.get(categoria.lower())
+        if cat_id:
+            query += " AND categoria_id = %s"
+            params.append(cat_id)
+
+    if area and area.lower() != 'mundo':
+        if area.lower() == 'europa':
+            query += " AND localizacao REGEXP 'Portugal|Espanha|França|Itália|Alemanha|Reino Unido|Holanda|Bélgica|Suíça|Suécia|Dinamarca|Noruega|Finlândia|Polónia|Grécia|Áustria|Irlanda'"
+        elif area.lower() == 'america':
+            query += " AND localizacao REGEXP 'Brasil|Estados Unidos|Canadá|México|Argentina|Chile|Colômbia|Peru|Uruguai'"
+
+    query += " ORDER BY RAND() LIMIT 1"
+
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute(query, tuple(params))
+    facto_gerado = cursor.fetchone()
+    cursor.close()
+
+    if facto_gerado:
+        return jsonify(facto_gerado)
+    else:
+        return jsonify({"message": "Nenhum facto encontrado."}), 404
+
+
 
 
 

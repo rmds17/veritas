@@ -11,6 +11,7 @@
 
 
 
+<body>
 
         <section class="d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
         <div class="container text-center">
@@ -99,57 +100,104 @@
         </div>
         </section>
 
-
-        <!-- Gerar Factos -->
+        <!-- Gerar Facto -->
         <section id="gerar-factos" class="d-flex flex-column justify-content-center align-items-center py-5" style="background-color: #f8f9fa; min-height: 100vh;">
-        <div class="container text-center">
-            <!-- Título -->
-            <h2 class="display-4 fw-bold mb-4">⚙️ Gerar Factos</h2>
+            <div class="container text-center">
+                <h2 class="display-4 fw-bold mb-4">⚙️ Gerar Factos</h2>
 
-            <!-- Cartão de geração -->
-            <div class="card shadow rounded-4 p-4 mx-auto" style="max-width: 900px; width: 100%; background-color: #f8f9fa;">
-                <p class="fs-5 mb-4">Com base no que escolhes, podes gerar um facto à tua vontade!</p>
+                <div class="card shadow rounded-4 p-4 mx-auto" style="max-width: 900px; width: 100%; background-color: #f8f9fa;">
+                    <p class="fs-5 mb-4">Com base no que escolhes, podes gerar um facto à tua vontade!</p>
 
-                <form method="POST" action="/gerar_facto">
-                    <div class="row g-3 justify-content-center mb-4">
-                        <!-- Data -->
-                        <div class="col-md-4">
-                            <label for="dataInput" class="form-label fw-semibold">Selecionar Data</label>
-                            <input type="text" id="dataInput" name="dataInput" class="form-control rounded-pill text-center shadow-sm border-0" placeholder="dd/mm/aaaa">
+                    <form id="gerar-facto-form">
+                        <div class="row g-3 justify-content-center mb-4">
+                            <!-- Data (Ano/Mês) -->
+                            <div class="col-md-4">
+                                <label for="dataInput" class="form-label fw-semibold">Selecionar Ano/Mês</label>
+                                <input type="text" id="dataInput" name="dataInput" class="form-control rounded-pill text-center shadow-sm border-0" placeholder="aaaa/mm">
+                            </div>
+
+                            <!-- Categoria -->
+                            <div class="col-md-4">
+                                <label for="categoriaSelect" class="form-label fw-semibold">Selecionar Categoria</label>
+                                <select id="categoriaSelect" name="categoriaSelect" class="form-select rounded-pill text-center shadow-sm border-0">
+                                    <option value="">Escolher...</option>
+                                    <option value="historia">História</option>
+                                    <option value="desporto">Desporto</option>
+                                    <option value="futebol">Futebol</option>
+                                    <option value="politica">Política</option>
+                                    <option value="musica">Música</option>
+                                </select>
+                            </div>
+
+                            <!-- Área -->
+                            <div class="col-md-4">
+                                <label for="areaSelect" class="form-label fw-semibold">Selecionar Área</label>
+                                <select id="areaSelect" name="areaSelect" class="form-select rounded-pill text-center shadow-sm border-0">
+                                    <option value="">Escolher...</option>
+                                    <option value="europa">Europa</option>
+                                    <option value="america">Continente Americano</option>
+                                    <option value="mundo">Mundo</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <!-- Categoria -->
-                        <div class="col-md-4">
-                            <label for="categoriaSelect" class="form-label fw-semibold">Selecionar Categoria</label>
-                            <select id="categoriaSelect" name="categoriaSelect" class="form-select rounded-pill text-center shadow-sm border-0">
-                                <option value="">Escolher...</option>
-                                <option value="historia">História</option>
-                                <option value="desporto">Desporto</option>
-                                <option value="futebol">Futebol</option>
-                                <option value="politica">Política</option>
-                                <option value="musica">Música</option>
-                            </select>
-                        </div>
+                        <button type="submit" class="btn btn-success btn-lg px-5 py-3 fw-semibold rounded-pill shadow-sm">
+                            🎲 Gerar Facto
+                        </button>
+                    </form>
+                </div>
 
-                        <!-- Área -->
-                        <div class="col-md-4">
-                            <label for="areaSelect" class="form-label fw-semibold">Selecionar Área</label>
-                            <select id="areaSelect" name="areaSelect" class="form-select rounded-pill text-center shadow-sm border-0">
-                                <option value="">Escolher...</option>
-                                <option value="europa">Europa</option>
-                                <option value="america">Continente Americano</option>
-                                <option value="mundo">Mundo</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-success btn-lg px-5 py-3 fw-semibold rounded-pill shadow-sm">
-                        🎲 Gerar Facto
-                    </button>
-                </form>
+                <!-- Div onde o facto gerado aparecerá dinamicamente -->
+                <div id="facto-gerado-container" class="mt-4" style="width: 100%;"></div>
             </div>
-        </div>
         </section>
 
+        <script>
+        document.getElementById("gerar-facto-form").addEventListener("submit", function(e) {
+            e.preventDefault();
 
-{% endblock %}
+            const dataInput = document.getElementById("dataInput").value;
+            const categoria = document.getElementById("categoriaSelect").value;
+            const area = document.getElementById("areaSelect").value;
+
+            fetch('/api/gerar_facto', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    dataInput: dataInput,
+                    categoriaSelect: categoria,
+                    areaSelect: area
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById("facto-gerado-container");
+                if (data.fato) {
+                    container.innerHTML = `
+                        <div class="card shadow rounded-4 p-4 mx-auto" style="max-width: 800px; width: 100%; background-color: white;">
+                            <div class="card-body">
+                                <p class="fs-4 text-center mb-0 text-dark">
+                                    ${data.fato} <br>
+                                    <small><em>${data.localizacao}, ${data.data_fato}</em></small>
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    container.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    container.innerHTML = '<p class="fs-5 text-center mt-4">Nenhum facto encontrado.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+        });
+        </script>
+
+
+        {% endblock %}
+
+
+
+
+
