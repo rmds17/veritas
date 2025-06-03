@@ -1,55 +1,3 @@
-<!-- {% extends "base.html" %}
-{% block content %}
-
-    <div class="card p-4 shadow-lg" style="width: 350px;">
-        <h3 class="text-center mb-4">Login</h3>
-    
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="alert">
-                {{ messages[0] }}
-            </div>
-        {% endif %}
-        {% endwith %}
-    
-    <form method="POST" action="{{ url_for('conta') }}">
-
-        <div class="mb-3">
-            <label for="username" class="form-label">Usuário</label>
-            <div class="input-group">
-                <input type="text" class="form-control" name="username" id="username" placeholder="Usuário" required>
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <label for="password" class="form-label">Senha</label>
-            <div class="input-group">
-                <input type="password" class="form-control" name="password" id="password" placeholder="Senha" required>
-            </div>
-        </div>
-
-        <button type="submit" class="btn btn-primary w-100">Entrar</button>
-
-    </form>
-    
-    </div>
-
-
-
-        Header 
-<header class="masthead text-center">
-  <div class="container px-4 px-lg-5">
-    <h1 class="mb-1">Minha Conta</h1>
-    <h3 class="mb-5"><em>Partilha factos interessantes que achas que merecem destaque!</em></h3>
-  </div>
-</header>
-
-
-
-
-{% endblock %} -->
-
-
 {% extends "base.html" %}
 {% block content %}
 
@@ -91,11 +39,15 @@
         <h3 class="text-center mb-4">Novo Registo</h3>
         <form method="POST" action="{{ url_for('conta') }}">
             <div class="mb-3">
-                <label for="new_username" class="form-label">Novo Utilizador</label>
+                <label for="new_username" class="form-label">NOme de Utilizador</label>
                 <input type="text" class="form-control" name="new_username" required>
             </div>
             <div class="mb-3">
-                <label for="new_password" class="form-label">Nova Palavra-Passe</label>
+                <label for="new_email" class="form-label">Email</label>
+                <input type="email" class="form-control" name="new_email" required>
+            </div>
+            <div class="mb-3">
+                <label for="new_password" class="form-label">Criar Palavra-Passe</label>
                 <input type="password" class="form-control" name="new_password" required>
             </div>
             <button type="submit" class="btn btn-success w-100">Registar</button>
@@ -122,6 +74,10 @@
         <form method="POST" action="{{ url_for('alterar_password') }}" class="mb-2">
             <input type="password" name="nova_password" class="form-control mb-1" placeholder="Nova password" required>
             <button class="btn btn-secondary w-100">Alterar Password</button>
+        </form>
+        
+        <form method="POST" action="{{ url_for('logout') }}">
+            <button class="btn btn-outline-dark w-100">Terminar Sessão</button>
         </form>
 
         <form method="POST" action="{{ url_for('eliminar_conta') }}">

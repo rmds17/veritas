@@ -143,48 +143,50 @@ def close_db(error):
 
 @app.route('/conta',  methods=['GET', 'POST'])
 def conta():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+    try:
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor(dictionary=True)
 
-        if not username or not password:
-            flash('Preencha todos os campos!', 'primary')
-            return render_template('conta.html')
+        if request.method == 'POST':
+            # LOGIN
+            if 'username' in request.form and 'password' in request.form:
+                username = request.form['username']
+                password = request.form['password']
 
-        try:
-            db = get_db()
-            cursor = db.cursor(dictionary=True)
-            query = "SELECT * FROM users WHERE username = %s AND password = %s"
-            cursor.execute(query, (username, password))
-            user = cursor.fetchone()
-            cursor.close()
+                cursor.execute("SELECT * FROM users WHERE username=%s AND password=%s", (username, password))
+                user = cursor.fetchone()
 
-            if user:
-                # Salvar informações do usuário na sessão
-                session['user_id'] = user['id']
-                session['username'] = user['username']
-                flash('Login bem-sucedido!', 'success')
-                return redirect(url_for('conta'))
-            else:
-                flash('Credenciais inválidas!', 'warning')
+                if user:
+                    session['user_id'] = user['id']
+                    session['username'] = user['username']
+                    flash('Login feito com sucesso!')
+                else:
+                    flash('Credenciais inválidas.')
 
-        except mysql.connector.Error as err:
-            app.logger.error(f"Erro na verificação de login: {err}")
-            flash('Erro ao acessar a base de dados.', 'danger')
-        
-    # Se já estiver logado, buscar dados
-    user_data = None
-    if session.get('user_id'):
-        db = get_db()
-        cursor = db.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM users WHERE id = %s", (session['user_id'],))
-        user_data = cursor.fetchone()
-        cursor.close()
+            # REGISTO
+            elif 'new_username' in request.form and 'new_password' in request.form and 'new_email' in request.form:
+                new_username = request.form['new_username']
+                new_password = request.form['new_password']
+                new_email = request.form['new_email']
 
-    return render_template('conta.html', user_data=user_data or {})
+                cursor.execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)",
+                               (new_username, new_password, new_email))
+                conn.commit()
+                flash('Conta criada com sucesso! Agora podes fazer login.')
+
+        # Buscar info para mostrar
+        user_info = None
+        if session.get('user_id'):
+            cursor.execute("SELECT * FROM users WHERE id = %s", (session['user_id'],))
+            user_info = cursor.fetchone()
+
+        conn.close()
+        return render_template("conta.html", user_data=user_info)
+    except Exception as e:
+        return f"Erro: {e}"
 
 
-@app.route('/logout')
+@app.route('/logout', methods=['POST'])
 def logout():
     session.clear()
     flash('Você saiu com sucesso!', 'info')
