@@ -7,9 +7,29 @@
         <img src="{{ url_for('static', filename='images/logoveritas1.jpg') }}" alt="Logo Veritas" style="height: 100px;" class="me-3">
         <h1 class="display-4 fw-bold mb-0">Veritas</h1>
         </div>
+        <header class="py-4" style="background-color: transparent;">
+        <div class="container d-flex align-items-center justify-content-center">
+        <img src="{{ url_for('static', filename='images/logoveritas1.jpg') }}" alt="Logo Veritas" style="height: 100px;" class="me-3">
+        <h1 class="display-4 fw-bold mb-0">Veritas</h1>
+        </div>
         </header>
 
 
+
+
+        <section class="d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="container text-center">
+            <!-- Lema -->
+            <h3 class="mb-4"><em>Ab oculis curiositatis innovatio nata</em></h3>
+
+            <div style="height: 100px;"></div>
+
+
+            <!-- Frase principal alinhada com botões -->
+            <div class="px-4 px-lg-5">
+                <h3 class="mb-4">
+                    Um hub de curiosidade e um destino para todos os factos interessantes que alguma vez quiseste saber!
+                </h3>
 
         <section class="d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
         <div class="container text-center">
@@ -30,7 +50,14 @@
                     <a href="#facto-dia" class="btn btn-primary btn-lg m-2 px-4 py-2">Facto do Dia</a>
                     <a href="#factos-random" class="btn btn-warning btn-lg m-2 px-4 py-2">Facto Random</a>
                     <a href="#gerar-factos" class="btn btn-light btn-lg m-2 px-4 py-2">Gerar Factos</a>
+                <!-- Botões -->
+                <div class="my-4">
+                    <a href="#facto-dia" class="btn btn-primary btn-lg m-2 px-4 py-2">Facto do Dia</a>
+                    <a href="#factos-random" class="btn btn-warning btn-lg m-2 px-4 py-2">Facto Random</a>
+                    <a href="#gerar-factos" class="btn btn-light btn-lg m-2 px-4 py-2">Gerar Factos</a>
                 </div>
+            </div>
+        </div>
             </div>
         </div>
         </section>
@@ -38,9 +65,21 @@
 
         <section id="facto-dia" class="d-flex flex-column justify-content-center align-items-center py-5" style="background-color: #167b9c;; color: white; min-height: 100vh;">
         <div class="container text-center">
+        <section id="facto-dia" class="d-flex flex-column justify-content-center align-items-center py-5" style="background-color: #167b9c;; color: white; min-height: 100vh;">
+        <div class="container text-center">
         <!-- Título -->
         <h2 class="display-4 fw-bold mb-4">🧠 Facto do Dia</h2>
+        <h2 class="display-4 fw-bold mb-4">🧠 Facto do Dia</h2>
 
+        <!-- Cartão do facto -->
+        {% if facto_do_dia %}
+            <div class="card shadow rounded-4 p-4 mx-auto" style="max-width: 800px; width: 100%;">
+                <div class="card-body">
+                    <p class="fs-4 text-center mb-0 text-dark">
+                        {{ facto_do_dia['fato'] }} <br>
+                        <small><em>{{ facto_do_dia['localizacao'] }}, {{ facto_do_dia['data_fato'] }}</em></small>
+                    </p>
+                </div>
         <!-- Cartão do facto -->
         {% if facto_do_dia %}
             <div class="card shadow rounded-4 p-4 mx-auto" style="max-width: 800px; width: 100%;">
@@ -54,23 +93,50 @@
         {% else %}
             <p class="fs-5">Ainda não há facto guardado para o dia de hoje.</p>
         {% endif %}
+        {% else %}
+            <p class="fs-5">Ainda não há facto guardado para o dia de hoje.</p>
+        {% endif %}
         </div>
         </section>
 
 
         <!-- Factos Random-->
-        <section class="content-section bg-light" id="factos-random">
-            <div class="container px-4 px-lg-5 text-center">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-lg-10">
-                        <h2 class="text-center display-5 fw-bold mb-5">🎲 Factos Aleatórios</h2>
-                        <p class="lead mb-5">
-                            Factos completamente aleatórios criados por nós, especialmente para ti!
-                        </p>
-                        <a class="btn btn-dark btn-xl" href="#services">What We Offer</a>
+        <section id="factos-random" class="d-flex flex-column justify-content-center align-items-center py-5" style="background-color: #f5a623; color: white; min-height: 100vh;">
+        <div class="container text-center">
+            <!-- Título -->
+            <h2 class="display-4 fw-bold mb-5">🎲 Factos Aleatórios</h2>
+
+            {% if factos_random|length >= 2 %}
+            <div class="row justify-content-center align-items-center">
+                <!-- Primeiro facto -->
+                <div class="col-md-5 mb-4">
+                    <div class="card shadow rounded-4 p-4 mx-auto text-dark">
+                        <div class="card-body">
+                            <p class="fs-5 mb-2">{{ factos_random[0]['fato'] }}</p>
+                            <small><em>{{ factos_random[0]['localizacao'] }}, {{ factos_random[0]['data_fato'] }}</em></small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Linha vertical -->
+                <div class="col-md-1 d-none d-md-flex justify-content-center">
+                    <div style="border-left: 2px solid white; height: 150px;"></div>
+                </div>
+
+                <!-- Segundo facto -->
+                <div class="col-md-5 mb-4">
+                    <div class="card shadow rounded-4 p-4 mx-auto text-dark">
+                        <div class="card-body">
+                            <p class="fs-5 mb-2">{{ factos_random[1]['fato'] }}</p>
+                            <small><em>{{ factos_random[1]['localizacao'] }}, {{ factos_random[1]['data_fato'] }}</em></small>
+                        </div>
                     </div>
                 </div>
             </div>
+            {% else %}
+            <p class="fs-5">Ainda não há factos aleatórios disponíveis.</p>
+            {% endif %}
+        </div>
         </section>
 
         <!-- Gerar Factos -->
@@ -134,6 +200,5 @@
                 </div>
             </div>
         </section>
-
 
 {% endblock %}
