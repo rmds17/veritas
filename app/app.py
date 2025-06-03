@@ -49,6 +49,8 @@ def home():
     """
     cursor.execute(query_factos_random)
     factos_random = cursor.fetchall()
+    if not factos_random:
+        factos_random = []  # garante lista vazia, não None
 
     cursor.close()
 
