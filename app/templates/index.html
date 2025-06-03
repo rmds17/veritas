@@ -99,66 +99,57 @@
         </div>
         </section>
 
+
         <!-- Gerar Factos -->
-        <section class="content-section bg-primary text-white text-center" id="gerar-factos">
-            <div class="container px-4 px-lg-5">
-                <div class="content-section-heading">
-                    <h2 class="text-center display-5 fw-bold mb-5">⚙️ Gerar Factos</h2>
-                </div>
-                
+        <section id="gerar-factos" class="d-flex flex-column justify-content-center align-items-center py-5" style="background-color: #f8f9fa; min-height: 100vh;">
+        <div class="container text-center">
+            <!-- Título -->
+            <h2 class="display-4 fw-bold mb-4">⚙️ Gerar Factos</h2>
 
-                <section class="py-5" id="gerar-factos" style="background-color: #167b9c;">
+            <!-- Cartão de geração -->
+            <div class="card shadow rounded-4 p-4 mx-auto" style="max-width: 900px; width: 100%; background-color: #f8f9fa;">
+                <p class="fs-5 mb-4">Com base no que escolhes, podes gerar um facto à tua vontade!</p>
 
-                <div class="container text-center text-white">
-                    <p class="mb-5 fs-5">Com base no que escolhes, podes gerar um facto à tua vontade!</p>
+                <form method="POST" action="/gerar_facto">
+                    <div class="row g-3 justify-content-center mb-4">
+                        <!-- Data -->
+                        <div class="col-md-4">
+                            <label for="dataInput" class="form-label fw-semibold">Selecionar Data</label>
+                            <input type="text" id="dataInput" name="dataInput" class="form-control rounded-pill text-center shadow-sm border-0" placeholder="dd/mm/aaaa">
+                        </div>
 
-                    <div class="row justify-content-center g-4">
-                    <!-- Data (Texto manual) -->
-                    <div class="col-md-3">
-                        <label for="dataInput" class="form-label fw-semibold">Selecionar Data</label>
-                        <input type="text" id="dataInput" class="form-control rounded-pill text-center shadow-sm border-0"
-                            placeholder="dd/mm/aaaa">
+                        <!-- Categoria -->
+                        <div class="col-md-4">
+                            <label for="categoriaSelect" class="form-label fw-semibold">Selecionar Categoria</label>
+                            <select id="categoriaSelect" name="categoriaSelect" class="form-select rounded-pill text-center shadow-sm border-0">
+                                <option value="">Escolher...</option>
+                                <option value="historia">História</option>
+                                <option value="desporto">Desporto</option>
+                                <option value="futebol">Futebol</option>
+                                <option value="politica">Política</option>
+                                <option value="musica">Música</option>
+                            </select>
+                        </div>
+
+                        <!-- Área -->
+                        <div class="col-md-4">
+                            <label for="areaSelect" class="form-label fw-semibold">Selecionar Área</label>
+                            <select id="areaSelect" name="areaSelect" class="form-select rounded-pill text-center shadow-sm border-0">
+                                <option value="">Escolher...</option>
+                                <option value="europa">Europa</option>
+                                <option value="america">Continente Americano</option>
+                                <option value="mundo">Mundo</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <!-- Categoria -->
-                    <div class="col-md-3">
-                        <label for="categoriaSelect" class="form-label fw-semibold">Selecionar Categoria</label>
-                        <select id="categoriaSelect" class="form-select rounded-pill text-center shadow-sm border-0">
-                        <option value="">Escolher...</option>
-                        <option>História</option>
-                        <option>Desporto</option>
-                        <option>Futebol</option>
-                        <option>Política</option>
-                        <option>Música</option>
-                        </select>
-                    </div>
-
-                    <!-- Área -->
-                    <div class="col-md-3">
-                        <label for="areaSelect" class="form-label fw-semibold">Selecionar Área</label>
-                        <select id="areaSelect" class="form-select rounded-pill text-center shadow-sm border-0">
-                        <option value="">Escolher...</option>
-                        <option>Europa</option>
-                        <option>Continente Americano</option>
-                        <option>Mundo</option>
-                        </select>
-                    </div>
-                    </div>
-
-                    <!-- Botão -->
-                    <div class="mt-5">
-                    <button class="btn btn-light text-primary fw-semibold px-4 py-2 rounded-pill shadow-sm">
+                    <button type="submit" class="btn btn-success btn-lg px-5 py-3 fw-semibold rounded-pill shadow-sm">
                         🎲 Gerar Facto
                     </button>
-                    </div>
-                </div>
-                </section>
-
-
-
-
-                </div>
+                </form>
             </div>
+        </div>
         </section>
+
 
 {% endblock %}
