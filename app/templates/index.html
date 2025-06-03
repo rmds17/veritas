@@ -59,18 +59,42 @@
 
 
         <!-- Factos Random-->
-        <section class="content-section bg-light" id="factos-random">
-            <div class="container px-4 px-lg-5 text-center">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-lg-10">
-                        <h2 class="text-center display-5 fw-bold mb-5">🎲 Factos Aleatórios</h2>
-                        <p class="lead mb-5">
-                            Factos completamente aleatórios criados por nós, especialmente para ti!
-                        </p>
-                        <a class="btn btn-dark btn-xl" href="#services">What We Offer</a>
+        <section id="factos-random" class="d-flex flex-column justify-content-center align-items-center py-5" style="background-color: #f5a623; color: white; min-height: 100vh;">
+        <div class="container text-center">
+            <!-- Título -->
+            <h2 class="display-4 fw-bold mb-5">🎲 Factos Aleatórios</h2>
+
+            {% if factos_random|length >= 2 %}
+            <div class="row justify-content-center align-items-center">
+                <!-- Primeiro facto -->
+                <div class="col-md-5 mb-4">
+                    <div class="card shadow rounded-4 p-4 mx-auto text-dark">
+                        <div class="card-body">
+                            <p class="fs-5 mb-2">{{ factos_random[0]['fato'] }}</p>
+                            <small><em>{{ factos_random[0]['localizacao'] }}, {{ factos_random[0]['data_fato'] }}</em></small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Linha vertical -->
+                <div class="col-md-1 d-none d-md-flex justify-content-center">
+                    <div style="border-left: 2px solid white; height: 150px;"></div>
+                </div>
+
+                <!-- Segundo facto -->
+                <div class="col-md-5 mb-4">
+                    <div class="card shadow rounded-4 p-4 mx-auto text-dark">
+                        <div class="card-body">
+                            <p class="fs-5 mb-2">{{ factos_random[1]['fato'] }}</p>
+                            <small><em>{{ factos_random[1]['localizacao'] }}, {{ factos_random[1]['data_fato'] }}</em></small>
+                        </div>
                     </div>
                 </div>
             </div>
+            {% else %}
+            <p class="fs-5">Ainda não há factos aleatórios disponíveis.</p>
+            {% endif %}
+        </div>
         </section>
 
         <!-- Gerar Factos -->
@@ -134,71 +158,5 @@
                 </div>
             </div>
         </section>
-        
-        <!-- Portfolio
-        <section class="content-section" id="portfolio">
-            <div class="container px-4 px-lg-5">
-                <div class="content-section-heading text-center">
-                    <h3 class="text-secondary mb-0">Portfolio</h3>
-                    <h2 class="mb-5">Recent Projects</h2>
-                </div>
-                <div class="row gx-0">
-                    <div class="col-lg-6">
-                        <a class="portfolio-item" href="#!">
-                            <div class="caption">
-                                <div class="caption-content">
-                                    <div class="h2">Stationary</div>
-                                    <p class="mb-0">A yellow pencil with envelopes on a clean, blue backdrop!</p>
-                                </div>
-                            </div>
-                            <img class="img-fluid" src="assets/img/portfolio-1.jpg" alt="..." /> -->
-                            <!-- <img class="img-fluid" src="{{ url_for('static', filename='images/portfolio-1.jpg') }}" alt="..." />
-                        </a>
-                    </div>
-                    <div class="col-lg-6">
-                        <a class="portfolio-item" href="#!">
-                            <div class="caption">
-                                <div class="caption-content">
-                                    <div class="h2">Ice Cream</div>
-                                    <p class="mb-0">A dark blue background with a colored pencil, a clip, and a tiny ice cream cone!</p>
-                                </div>
-                            </div>
-                            <img class="img-fluid" src="{{ url_for('static', filename='images/portfolio-2.jpg') }}" alt="..." />
-                        </a>
-                    </div>
-                    <div class="col-lg-6">
-                        <a class="portfolio-item" href="#!">
-                            <div class="caption">
-                                <div class="caption-content">
-                                    <div class="h2">Strawberries</div>
-                                    <p class="mb-0">Strawberries are such a tasty snack, especially with a little sugar on top!</p>
-                                </div>
-                            </div>
-                            <img class="img-fluid" src="{{ url_for('static', filename='images/portfolio-3.jpg') }}" alt="..." />
-                        </a>
-                    </div>
-                    <div class="col-lg-6">
-                        <a class="portfolio-item" href="#!">
-                            <div class="caption">
-                                <div class="caption-content">
-                                    <div class="h2">Workspace</div>
-                                    <p class="mb-0">A yellow workspace with some scissors, pencils, and other objects.</p>
-                                </div>
-                            </div>
-                            <img class="img-fluid" src="{{ url_for('static', filename='images/portfolio-4.jpg') }}" alt="..." />
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>  -->
-        <!-- Call to Action
-        <section class="content-section bg-primary text-white">
-            <div class="container px-4 px-lg-5 text-center">
-                <h2 class="mb-4">The buttons below are impossible to resist...</h2>
-                <a class="btn btn-xl btn-light me-4" href="#!">Click Me!</a>
-                <a class="btn btn-xl btn-dark" href="#!">Look at Me!</a>
-            </div>
-        </section> -->
-
 
 {% endblock %}
