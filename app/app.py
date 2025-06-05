@@ -277,16 +277,130 @@ def sobre():
     return render_template("sobre.html")
 
 
-@app.route("/factosg")
-def factosg():
-    return render_template("factosg.html")
-
 
 @app.route("/factosen")
 def factosen():
     return render_template("factosen.html")
 
+
+@app.route("/factosg", methods=["GET", "POST"])
+def factosg():
+    if not session.get('user_id'):
+        flash("Precisas de estar autenticado para ver os teus factos guardados.", "warning")
+        return redirect(url_for("conta"))
+
+    filtros = {
+        "dataInput": request.form.get("dataInput", "").strip(),
+        "categoria": request.form.get("categoriaSelect", "").strip(),
+        "area": request.form.get("areaSelect", "").strip()
+    }
+
+    query = """
+        SELECT f.*
+        FROM factos_guardados fg
+        JOIN fatos f ON fg.fato_id = f.id
+        WHERE fg.user_id = %s
+    """
+    params = [session["user_id"]]
+
+    if filtros["dataInput"]:
+        try:
+            data = datetime.strptime(filtros["dataInput"].replace('-', '/'), "%Y/%m")
+            query += " AND YEAR(f.data_fato) = %s AND MONTH(f.data_fato) = %s"
+            params.extend([data.year, data.month])
+        except ValueError:
+            flash("Formato de data inválido. Usa aaaa/mm.", "danger")
+
+    if filtros["categoria"]:
+        categoria_ids = {
+            "historia": 1, "desporto": 2, "futebol": 3,
+            "politica": 4, "musica": 5
+        }
+        cat_id = categoria_ids.get(filtros["categoria"].lower())
+        if cat_id:
+            query += " AND f.categoria_id = %s"
+            params.append(cat_id)
+
+    if filtros["area"]:
+        if filtros["area"].lower() == "europa":
+            query += " AND f.localizacao REGEXP 'Portugal|Espanha|França|Itália|Alemanha|Reino Unido|Holanda|Bélgica|Suíça|Suécia|Dinamarca|Noruega|Finlândia|Polónia|Grécia|Áustria|Irlanda'"
+        elif filtros["area"].lower() == "america":
+            query += " AND f.localizacao REGEXP 'Brasil|Estados Unidos|Canadá|México|Argentina|Chile|Colômbia|Peru|Uruguai'"
+
+    query += " ORDER BY f.data_fato DESC"
+
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute(query, tuple(params))
+    factos = cursor.fetchall()
+    cursor.close()
+
+    return render_template("factosg.html", factos=factos, filtros=filtros)
+
+
+
+
+@app.route("/guardar_facto", methods=["POST"])
+def guardar_facto():
+    if not session.get("user_id"):
+        flash("Tens de estar autenticado para guardar factos.", "warning")
+        return redirect(url_for("conta"))
+
+    fato_id = request.form.get("fato_id")
+    if not fato_id:
+        flash("ID do facto não fornecido.", "danger")
+        return redirect(url_for("home"))
+
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM factos_guardados WHERE user_id = %s AND fato_id = %s", (session["user_id"], fato_id))
+    ja_existe = cursor.fetchone()
+
+    if not ja_existe:
+        cursor.execute("INSERT INTO factos_guardados (user_id, fato_id) VALUES (%s, %s)", (session["user_id"], fato_id))
+        db.commit()
+        flash("Facto guardado com sucesso!", "success")
+    else:
+        flash("Este facto já está guardado.", "info")
+
+    return redirect(request.referrer or url_for("home"))
+
+
+
+@app.route('/remover_facto_guardado', methods=['POST'])
+def remover_facto_guardado():
+    if not session.get('user_id'):
+        flash('Precisas de estar autenticado para remover factos.', 'warning')
+        return redirect(url_for('conta'))
+
+    fato_id = request.form.get('fato_id')
+    if not fato_id:
+        flash('ID do facto não fornecido.', 'danger')
+        return redirect(url_for('factosg'))
+
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("""
+        DELETE FROM factos_guardados
+        WHERE user_id = %s AND fato_id = %s
+    """, (session['user_id'], fato_id))
+    db.commit()
+    cursor.close()
+
+    flash('Facto removido dos guardados com sucesso!', 'success')
+    return redirect(url_for('factosg'))
+
+
+
+
+
+
+
+
+
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")
-
-# Configuração da base de dados

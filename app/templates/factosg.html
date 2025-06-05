@@ -1,16 +1,75 @@
 {% extends "base.html" %}
 {% block content %}
 
-        <!-- Header-->
-        <header class="masthead d-flex align-items-center">
-            <div class="container px-4 px-lg-5 text-center">
-                <h1 class="mb-1">Factos Guardados</h1>
-                <h3 class="mb-5"><em>Factos que o utilizador guardou</em></h3>
-                <a class="btn btn-primary btn-xl" href="#factosg">Find Out More</a>
+<section class="d-flex flex-column justify-content-center align-items-center py-5" style="min-height: 100vh; background-color: #ffffff;">
+    <div class="container text-center">
+
+        <h2 class="display-4 fw-bold mb-4">📚 Factos Guardados</h2>
+
+        <!-- Formulário de Filtros -->
+        <form method="POST" class="mb-4">
+            <div class="row g-3 justify-content-center">
+
+                <!-- Filtro Data -->
+                <div class="col-md-3">
+                    <input type="text" name="dataInput" class="form-control rounded-pill text-center shadow-sm border-0"
+                        placeholder="aaaa/mm" value="{{ filtros.dataInput }}">
+                </div>
+
+                <!-- Filtro Categoria -->
+                <div class="col-md-3">
+                    <select name="categoriaSelect" class="form-select rounded-pill text-center shadow-sm border-0">
+                        <option value="">Todas Categorias</option>
+                        <option value="historia" {% if filtros.categoria == 'historia' %}selected{% endif %}>História</option>
+                        <option value="desporto" {% if filtros.categoria == 'desporto' %}selected{% endif %}>Desporto</option>
+                        <option value="futebol" {% if filtros.categoria == 'futebol' %}selected{% endif %}>Futebol</option>
+                        <option value="politica" {% if filtros.categoria == 'politica' %}selected{% endif %}>Política</option>
+                        <option value="musica" {% if filtros.categoria == 'musica' %}selected{% endif %}>Música</option>
+                    </select>
+                </div>
+
+                <!-- Filtro Área -->
+                <div class="col-md-3">
+                    <select name="areaSelect" class="form-select rounded-pill text-center shadow-sm border-0">
+                        <option value="">Todo o Mundo</option>
+                        <option value="europa" {% if filtros.area == 'europa' %}selected{% endif %}>Europa</option>
+                        <option value="america" {% if filtros.area == 'america' %}selected{% endif %}>Continente Americano</option>
+                        <option value="mundo" {% if filtros.area == 'mundo' %}selected{% endif %}>Mundo</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-dark w-100 fw-semibold rounded-pill">🔍 Filtrar</button>
+                </div>
             </div>
-        </header>
-        <!-- About-->
+        </form>
 
+        <!-- Cartões de Factos -->
+        <div class="row justify-content-center mt-4">
+            {% if factos %}
+                {% for facto in factos %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card shadow rounded-4 p-4 h-100 text-dark">
+                            <div class="card-body">
+                                <p class="fs-5 mb-2">{{ facto.fato }}</p>
+                                <small><em>{{ facto.localizacao }}, {{ facto.data_fato }}</em></small>
+                            </div>
+                            <!-- Botão opcional de remover -->
+                            <!--
+                            <form method="POST" action="{{ url_for('remover_facto_guardado') }}">
+                                <input type="hidden" name="fato_id" value="{{ facto.id }}">
+                                <button class="btn btn-outline-danger mt-2 btn-sm rounded-pill">❌ Remover</button>
+                            </form>
+                            -->
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="fs-5 text-muted">Não encontrámos factos guardados com esses filtros.</p>
+            {% endif %}
+        </div>
 
+    </div>
+</section>
 
 {% endblock %}

@@ -9,8 +9,6 @@
         </div>
         </header>
 
-
-
 <body>
 
         <section class="d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
@@ -19,7 +17,6 @@
             <h3 class="mb-4"><em>Ab oculis curiositatis innovatio nata</em></h3>
 
             <div style="height: 100px;"></div>
-
 
             <!-- Frase principal alinhada com botões -->
             <div class="px-4 px-lg-5">
@@ -38,13 +35,10 @@
         </div>
         </section>
 
-
         <section id="facto-dia" class="d-flex flex-column justify-content-center align-items-center py-5" style="background-color: #167b9c;; color: white; min-height: 100vh;">
         <div class="container text-center">
-        <!-- Título -->
         <h2 class="display-4 fw-bold mb-4">🧠 Facto do Dia</h2>
 
-        <!-- Cartão do facto -->
         {% if facto_do_dia %}
             <div class="card shadow rounded-4 p-4 mx-auto" style="max-width: 800px; width: 100%;">
                 <div class="card-body">
@@ -52,6 +46,10 @@
                         {{ facto_do_dia['fato'] }} <br>
                         <small><em>{{ facto_do_dia['localizacao'] }}, {{ facto_do_dia['data_fato'] }}</em></small>
                     </p>
+                    <form method="POST" action="{{ url_for('guardar_facto') }}" class="mt-3">
+                        <input type="hidden" name="fato_id" value="{{ facto_do_dia['id'] }}">
+                        <button type="submit" class="btn btn-outline-primary btn-sm">⭐ Guardar Facto</button>
+                    </form>
                 </div>
             </div>
         {% else %}
@@ -60,36 +58,36 @@
         </div>
         </section>
 
-
-        <!-- Factos Random-->
         <section id="factos-random" class="d-flex flex-column justify-content-center align-items-center py-5" style="background-color: #f5a623; color: white; min-height: 100vh;">
         <div class="container text-center">
-            <!-- Título -->
             <h2 class="display-4 fw-bold mb-5">🎲 Factos Aleatórios</h2>
 
             {% if factos_random|length >= 2 %}
             <div class="row justify-content-center align-items-center">
-                <!-- Primeiro facto -->
                 <div class="col-md-5 mb-4">
                     <div class="card shadow rounded-4 p-4 mx-auto text-dark">
                         <div class="card-body">
                             <p class="fs-5 mb-2">{{ factos_random[0]['fato'] }}</p>
                             <small><em>{{ factos_random[0]['localizacao'] }}, {{ factos_random[0]['data_fato'] }}</em></small>
+                            <form method="POST" action="{{ url_for('guardar_facto') }}" class="mt-2">
+                                <input type="hidden" name="fato_id" value="{{ factos_random[0]['id'] }}">
+                                <button type="submit" class="btn btn-outline-light btn-sm">⭐ Guardar Facto</button>
+                            </form>
                         </div>
                     </div>
                 </div>
-
-                <!-- Linha vertical -->
                 <div class="col-md-1 d-none d-md-flex justify-content-center">
                     <div style="border-left: 2px solid white; height: 150px;"></div>
                 </div>
-
-                <!-- Segundo facto -->
                 <div class="col-md-5 mb-4">
                     <div class="card shadow rounded-4 p-4 mx-auto text-dark">
                         <div class="card-body">
                             <p class="fs-5 mb-2">{{ factos_random[1]['fato'] }}</p>
                             <small><em>{{ factos_random[1]['localizacao'] }}, {{ factos_random[1]['data_fato'] }}</em></small>
+                            <form method="POST" action="{{ url_for('guardar_facto') }}" class="mt-2">
+                                <input type="hidden" name="fato_id" value="{{ factos_random[1]['id'] }}">
+                                <button type="submit" class="btn btn-outline-light btn-sm">⭐ Guardar Facto</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -110,13 +108,10 @@
 
                     <form id="gerar-facto-form">
                         <div class="row g-3 justify-content-center mb-4">
-                            <!-- Data (Ano/Mês) -->
                             <div class="col-md-4">
                                 <label for="dataInput" class="form-label fw-semibold">Selecionar Ano/Mês</label>
                                 <input type="text" id="dataInput" name="dataInput" class="form-control rounded-pill text-center shadow-sm border-0" placeholder="aaaa/mm">
                             </div>
-
-                            <!-- Categoria -->
                             <div class="col-md-4">
                                 <label for="categoriaSelect" class="form-label fw-semibold">Selecionar Categoria</label>
                                 <select id="categoriaSelect" name="categoriaSelect" class="form-select rounded-pill text-center shadow-sm border-0">
@@ -128,8 +123,6 @@
                                     <option value="musica">Música</option>
                                 </select>
                             </div>
-
-                            <!-- Área -->
                             <div class="col-md-4">
                                 <label for="areaSelect" class="form-label fw-semibold">Selecionar Área</label>
                                 <select id="areaSelect" name="areaSelect" class="form-select rounded-pill text-center shadow-sm border-0">
@@ -147,7 +140,6 @@
                     </form>
                 </div>
 
-                <!-- Div onde o facto gerado aparecerá dinamicamente -->
                 <div id="facto-gerado-container" class="mt-4" style="width: 100%;"></div>
             </div>
         </section>
@@ -180,6 +172,10 @@
                                     ${data.fato} <br>
                                     <small><em>${data.localizacao}, ${data.data_fato}</em></small>
                                 </p>
+                                <form method="POST" action="/guardar_facto" class="mt-3">
+                                    <input type="hidden" name="fato_id" value="${data.id}">
+                                    <button type="submit" class="btn btn-outline-success btn-sm">⭐ Guardar Facto</button>
+                                </form>
                             </div>
                         </div>
                     `;
@@ -194,8 +190,10 @@
         });
         </script>
 
+{% endblock %}
 
-        {% endblock %}
+
+
 
 
 
