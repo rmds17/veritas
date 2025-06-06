@@ -11,6 +11,7 @@
 
 <body>
 
+
         <section class="d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
         <div class="container text-center">
             <!-- Lema -->
@@ -71,7 +72,7 @@
                             <small><em>{{ factos_random[0]['localizacao'] }}, {{ factos_random[0]['data_fato'] }}</em></small>
                             <form method="POST" action="{{ url_for('guardar_facto') }}" class="mt-2">
                                 <input type="hidden" name="fato_id" value="{{ factos_random[0]['id'] }}">
-                                <button type="submit" class="btn btn-outline-light btn-sm">⭐ Guardar Facto</button>
+                                <button type="submit" class="btn btn-primary btn-sm">⭐ Guardar Facto</button>
                             </form>
                         </div>
                     </div>
@@ -86,7 +87,7 @@
                             <small><em>{{ factos_random[1]['localizacao'] }}, {{ factos_random[1]['data_fato'] }}</em></small>
                             <form method="POST" action="{{ url_for('guardar_facto') }}" class="mt-2">
                                 <input type="hidden" name="fato_id" value="{{ factos_random[1]['id'] }}">
-                                <button type="submit" class="btn btn-outline-light btn-sm">⭐ Guardar Facto</button>
+                                <button type="submit" class="btn btn-primary btn-sm">⭐ Guardar Facto</button>
                             </form>
                         </div>
                     </div>

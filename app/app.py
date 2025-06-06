@@ -349,21 +349,39 @@ def guardar_facto():
     fato_id = request.form.get("fato_id")
     if not fato_id:
         flash("ID do facto não fornecido.", "danger")
-        return redirect(url_for("home"))
+        return redirect(request.referrer or url_for("home"))
 
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("SELECT * FROM factos_guardados WHERE user_id = %s AND fato_id = %s", (session["user_id"], fato_id))
-    ja_existe = cursor.fetchone()
 
-    if not ja_existe:
-        cursor.execute("INSERT INTO factos_guardados (user_id, fato_id) VALUES (%s, %s)", (session["user_id"], fato_id))
-        db.commit()
-        flash("Facto guardado com sucesso!", "success")
-    else:
-        flash("Este facto já está guardado.", "info")
+    try:
+        # Verificar se o facto já está guardado
+        cursor.execute("""
+            SELECT 1 FROM factos_guardados 
+            WHERE user_id = %s AND fato_id = %s
+        """, (session["user_id"], fato_id))
+        ja_existe = cursor.fetchone()
+
+        if ja_existe:
+            flash("Este facto já está guardado.", "info")
+        else:
+            cursor.execute("""
+                INSERT INTO factos_guardados (user_id, fato_id)
+                VALUES (%s, %s)
+            """, (session["user_id"], fato_id))
+            db.commit()
+            flash("Facto guardado com sucesso!", "success")
+
+    except Exception as e:
+        db.rollback()
+        flash("Ocorreu um erro ao guardar o facto.", "danger")
+        app.logger.error(f"Erro ao guardar facto: {e}")
+
+    finally:
+        cursor.close()
 
     return redirect(request.referrer or url_for("home"))
+
 
 
 

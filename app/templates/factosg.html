@@ -54,13 +54,13 @@
                                 <p class="fs-5 mb-2">{{ facto.fato }}</p>
                                 <small><em>{{ facto.localizacao }}, {{ facto.data_fato }}</em></small>
                             </div>
+                            
                             <!-- Botão opcional de remover -->
-                            <!--
                             <form method="POST" action="{{ url_for('remover_facto_guardado') }}">
                                 <input type="hidden" name="fato_id" value="{{ facto.id }}">
                                 <button class="btn btn-outline-danger mt-2 btn-sm rounded-pill">❌ Remover</button>
                             </form>
-                            -->
+                            
                         </div>
                     </div>
                 {% endfor %}
